@@ -79,3 +79,21 @@ void blink_count(unsigned int led, unsigned int count)
 			;
 	}
 }
+
+int input_pin(void)
+{
+	SET_BIT(RCC_BASE + RCC_AHB1ENR_OFFSET, GPIO_EN_BIT(GPIO_PORTA));//remember this line! the clock should operate with portA
+
+	/*set the situation of user buttom(in port A0<input/pull down>)*/
+	CLEAR_BIT(GPIO_BASE(GPIO_PORTA) + GPIOx_MODER_OFFSET, MODERy_1_BIT(0));
+	CLEAR_BIT(GPIO_BASE(GPIO_PORTA) + GPIOx_MODER_OFFSET, MODERy_0_BIT(0));
+	SET_BIT(GPIO_BASE(GPIO_PORTA)+GPIOx_PUPDR_OFFSET,PUPDRy_1_BIT(0));
+	CLEAR_BIT(GPIO_BASE(GPIO_PORTA)+GPIOx_PUPDR_OFFSET,PUPDRy_0_BIT(0));
+
+	unsigned int result=read_bit(GPIO_BASE(GPIO_PORTA)+GPIOx_IDR_OFFSET,IDR_BIT(0)); //restrict P_A can only read PA0
+	if(read_bit(GPIO_BASE(GPIO_PORTA)+GPIOx_IDR_OFFSET,IDR_BIT(0)))
+		return 1;
+	else
+		return 0;
+
+}

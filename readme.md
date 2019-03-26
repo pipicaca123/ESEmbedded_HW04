@@ -45,3 +45,5 @@ This is the hw04 sample. Please follow the steps below.
 --------------------
 
 Take your note here if you want. (Optional)
+1.建立read_bit中，以＆的方式去擷取資料我們所需的idr暫存器資料（且顯示資料會為1或0）
+2.注意在寫函數的時候，使灯閃爍的clock是配合PORTD(SET_BIT(RCC_BASE + RCC_AHB1ENR_OFFSET, GPIO_EN_BIT(GPIO_PORTD)))，然而，使用input portA時要將GPIO_PORTD改成GPIO_PORTA
